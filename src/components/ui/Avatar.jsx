@@ -22,6 +22,7 @@ export default function Avatar({
   src,
   alt,
   size = "sm",
+  decorative = false,
   className = "",
 }) {
   const source = String(src ?? "").trim() || FALLBACK_AVATAR;
@@ -42,11 +43,17 @@ export default function Avatar({
 
   return (
     <span
+      aria-hidden={decorative ? "true" : undefined}
       className={`relative grid shrink-0 place-items-center overflow-hidden rounded-full border border-slate-200 bg-tint ring-2 ring-white/60 ${SIZES[size] ?? SIZES.sm} ${className}`}
     >
-      <span className="absolute inset-0 grid place-items-center font-bold text-accent">
-        {initials(name)}
-      </span>
+      {!loaded && (
+        <span
+          aria-hidden="true"
+          className="absolute inset-0 grid place-items-center font-bold text-accent"
+        >
+          {initials(name)}
+        </span>
+      )}
       {!fallbackFailed && (
         <img
           src={resolved}

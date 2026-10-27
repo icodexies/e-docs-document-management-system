@@ -1,9 +1,11 @@
 import { Link, Outlet } from "react-router-dom";
 import BrandMark from "../../components/ui/BrandMark.jsx";
+import SkipLink from "../../components/ui/SkipLink.jsx";
 
 export default function PublicLayout() {
   return (
     <div className="theme-light flex min-h-screen flex-col bg-page text-ink">
+      <SkipLink href="#public-content" />
       <header className="sticky top-0 z-30 border-b border-slate-200/80 bg-surface shadow-[0_1px_2px_rgba(11,19,48,0.04)]">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
           <Link

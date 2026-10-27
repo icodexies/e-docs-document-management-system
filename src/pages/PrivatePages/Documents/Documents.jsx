@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import Button from "../../../components/ui/Button.jsx";
 import EmptyState from "../../../components/ui/EmptyState.jsx";
-import PageHero from "../../../components/ui/PageHero.jsx";
+import PageHeader from "../../../components/ui/PageHeader.jsx";
 import Pagination from "../../../components/ui/Pagination.jsx";
 import DocumentCard from "../../../components/documents/DocumentCard.jsx";
 import { useAuth } from "../../../hooks/auth/useAuth.js";
@@ -37,17 +37,14 @@ export default function Documents() {
 
   return (
     <div className="space-y-6">
-      <PageHero
+      <PageHeader
         eyebrow="Documents"
         title="Your documents"
         description="Everything you've uploaded, from drafts to fully signed copies. Open a document to see its signatories and audit trail."
         actions={
-          <Link
-            to="/documents/new"
-            className="rounded-xl bg-white px-4 py-2 text-sm font-semibold text-navy transition-colors hover:bg-slate-100"
-          >
-            Upload a document
-          </Link>
+          <Button to="/documents/new" variant="primary">
+            New document
+          </Button>
         }
       />
 
@@ -144,20 +141,13 @@ export default function Documents() {
             }
             action={
               hasFilters ? (
-                <button
-                  type="button"
-                  onClick={resetFilters}
-                  className="rounded-xl border border-slate-300 bg-surface px-4 py-2 text-sm font-semibold text-slate-700 transition-colors hover:bg-page"
-                >
+                <Button type="button" onClick={resetFilters} variant="secondary">
                   Clear filters
-                </button>
+                </Button>
               ) : (
-                <Link
-                  to="/documents/new"
-                  className="rounded-xl bg-navy px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-navy-deep"
-                >
-                  Upload a document
-                </Link>
+                <Button to="/documents/new" variant="primary">
+                  New document
+                </Button>
               )
             }
           />

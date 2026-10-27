@@ -26,7 +26,7 @@ export const MEMBER_PAGES = [
   },
   {
     id: "upload",
-    label: "Upload document",
+    label: "New document",
     path: "/documents/new",
     allowedRoles: ACCESS.member,
     hidden: false,

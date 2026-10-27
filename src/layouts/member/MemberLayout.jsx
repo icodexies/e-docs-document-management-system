@@ -1,8 +1,8 @@
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
+import AppearanceMenu from "../../components/ui/AppearanceMenu.jsx";
 import Avatar from "../../components/ui/Avatar.jsx";
 import BrandMark from "../../components/ui/BrandMark.jsx";
-import DisplaySizeToggle from "../../components/ui/DisplaySizeToggle.jsx";
-import ThemeToggle from "../../components/ui/ThemeToggle.jsx";
+import SkipLink from "../../components/ui/SkipLink.jsx";
 import { DisplaySizeProvider } from "../../context/display/DisplaySizeProvider.jsx";
 import { useAuth } from "../../hooks/auth/useAuth.js";
 import { isPageActive, visibleMemberPages } from "../../routes/memberPages.js";
@@ -71,10 +71,10 @@ function NavIcon({ id, className = "" }) {
 }
 
 const navLinkClass = (active) =>
-  `group relative flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all ${
+  `group relative flex min-h-11 items-center gap-3 rounded-xl px-3 py-3 text-sm font-medium transition-all ${
     active
       ? "bg-white/[0.12] text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]"
-      : "text-white/65 hover:bg-white/[0.07] hover:text-white"
+      : "text-white/75 hover:bg-white/[0.07] hover:text-white"
   }`;
 
 const tabClass = (active) =>
@@ -100,6 +100,10 @@ function MemberWorkspace() {
   const currentPage = pages.find((page) =>
     isPageActive(page, location.pathname),
   );
+  const profileName = profile?.full_name || "Your profile";
+  const roleText = `${ROLE_LABELS[role] ?? role ?? "Member"}${
+    profile && !profile.signature_path ? " · Signature needed" : ""
+  }`;
 
   async function handleLogout() {
     try {
@@ -112,6 +116,7 @@ function MemberWorkspace() {
 
   return (
     <div className="flex min-h-screen bg-page text-ink">
+      <SkipLink href="#member-content" />
       <aside className="sticky top-0 hidden h-screen w-64 shrink-0 self-start flex-col overflow-y-auto border-r border-white/10 bg-gradient-to-b from-navy via-navy to-navy-deep text-white sm:flex">
         <div className="border-b border-white/10 px-5 py-5">
           <Link to="/dashboard" className="flex items-center gap-2.5">
@@ -120,7 +125,7 @@ function MemberWorkspace() {
               <span className="block font-serif text-lg font-bold leading-tight">
                 E-Docs
               </span>
-              <span className="block text-[10px] font-semibold uppercase tracking-[0.18em] text-white/40">
+              <span className="block text-[10px] font-semibold uppercase tracking-[0.18em] text-white/60">
                 Electronic signing
               </span>
             </span>
@@ -128,7 +133,7 @@ function MemberWorkspace() {
         </div>
 
         <div className="flex-1 px-3 py-4">
-          <p className="px-3 pb-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-white/35">
+          <p className="px-3 pb-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-white/55">
             Workspace
           </p>
           <nav aria-label="Pages" className="space-y-1">
@@ -149,7 +154,7 @@ function MemberWorkspace() {
                   />
                   <NavIcon
                     id={page.id}
-                    className={active ? "text-jade-line" : "text-white/45"}
+                    className={active ? "text-jade-line" : "text-white/60"}
                   />
                   <span className="truncate">{page.label}</span>
                 </Link>
@@ -160,10 +165,10 @@ function MemberWorkspace() {
 
         <div className="border-t border-white/10 p-3">
           <div className="rounded-xl border border-white/10 bg-white/[0.04] p-3">
-            <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-white/45">
+            <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-white/65">
               Private workspace
             </p>
-            <p className="mt-1.5 text-[11px] leading-relaxed text-white/55">
+            <p className="mt-1.5 text-[11px] leading-relaxed text-white/70">
               Signed copies stay private. Every action is recorded in the audit
               trail.
             </p>
@@ -187,22 +192,22 @@ function MemberWorkspace() {
             </div>
 
             <div className="flex min-w-0 items-center justify-end gap-1.5 sm:gap-2">
-              <DisplaySizeToggle />
-              <ThemeToggle />
+              <AppearanceMenu />
               <Link
                 to="/profile"
-                aria-label={`Open ${profile?.full_name || "your"} profile and signature`}
                 title={profile?.full_name || "Profile & signature"}
-                className="flex min-w-0 items-center gap-2 rounded-xl border border-transparent px-1.5 py-1 transition-colors hover:border-slate-200 hover:bg-page"
+                className="flex min-h-11 min-w-11 items-center gap-2 rounded-xl border border-transparent px-1.5 py-1 transition-colors hover:border-slate-200 hover:bg-page"
               >
                 <Avatar
                   name={profile?.full_name}
                   src={profile?.avatar_url}
+                  alt=""
+                  decorative
                   className="ring-slate-200"
                 />
                 <span className="hidden min-w-0 text-left sm:block">
                   <span className="block max-w-[11rem] truncate text-xs font-semibold text-ink">
-                    {profile?.full_name || "Your profile"}
+                    {profileName}
                   </span>
                   <span
                     className={`block text-[10px] font-medium ${
@@ -211,11 +216,11 @@ function MemberWorkspace() {
                         : "text-slate-500"
                     }`}
                   >
-                    {ROLE_LABELS[role] ?? role ?? "Member"}
-                    {profile && !profile.signature_path
-                      ? " · Signature needed"
-                      : ""}
+                    {roleText}
                   </span>
+                </span>
+                <span className="sr-only sm:hidden">
+                  {profileName} {roleText}. Open profile and signature.
                 </span>
               </Link>
 
@@ -223,7 +228,7 @@ function MemberWorkspace() {
                 type="button"
                 onClick={handleLogout}
                 aria-label="Sign out"
-                className="inline-flex shrink-0 items-center gap-2 rounded-xl border border-slate-300 bg-surface px-3 py-2 text-xs font-semibold text-slate-600 transition-colors hover:border-slate-400 hover:bg-page hover:text-ink"
+                className="inline-flex min-h-11 min-w-11 shrink-0 items-center justify-center gap-2 rounded-xl border border-slate-300 bg-surface px-3 py-2 text-xs font-semibold text-slate-600 transition-colors hover:border-slate-400 hover:bg-page hover:text-ink"
               >
                 <svg
                   viewBox="0 0 24 24"
@@ -245,27 +250,36 @@ function MemberWorkspace() {
           </div>
         </header>
 
-        <nav
-          aria-label="Pages"
-          className="flex gap-1.5 overflow-x-auto border-b border-slate-200/80 bg-page px-4 py-2 sm:hidden"
-        >
-          {pages.map((page) => {
-            const active = isPageActive(page, location.pathname);
-            return (
-              <Link
-                key={page.id}
-                to={page.path}
-                aria-current={active ? "page" : undefined}
-                className={tabClass(active)}
-              >
-                <NavIcon id={page.id} />
-                {page.label}
-              </Link>
-            );
-          })}
-        </nav>
+        <div className="relative sm:hidden">
+          <nav
+            aria-label="Pages"
+            className="flex gap-1.5 overflow-x-auto border-b border-slate-200/80 bg-page px-4 py-2 pr-10"
+          >
+            {pages.map((page) => {
+              const active = isPageActive(page, location.pathname);
+              return (
+                <Link
+                  key={page.id}
+                  to={page.path}
+                  aria-current={active ? "page" : undefined}
+                  className={tabClass(active)}
+                >
+                  <NavIcon id={page.id} />
+                  {page.label}
+                </Link>
+              );
+            })}
+          </nav>
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-y-0 right-0 w-10 bg-gradient-to-l from-page to-transparent"
+          />
+        </div>
 
-        <main className="mx-auto w-full max-w-7xl flex-1 px-5 py-7 sm:px-8 sm:py-8">
+        <main
+          id="member-content"
+          className="mx-auto w-full max-w-7xl flex-1 px-5 py-7 sm:px-8 sm:py-8"
+        >
           <Outlet />
         </main>
 

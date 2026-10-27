@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import PageHero from "../../../components/ui/PageHero.jsx";
+import PageHeader from "../../../components/ui/PageHeader.jsx";
 import { Spinner } from "../../../components/ui/Loading.jsx";
 import PdfFieldEditor from "../../../components/documents/PdfFieldEditor.jsx";
 import SignatoryReviewList from "../../../components/documents/SignatoryReviewList.jsx";
@@ -90,7 +90,7 @@ export default function UploadDocument() {
 
   return (
     <div className="space-y-6">
-      <PageHero
+      <PageHeader
         eyebrow="Upload"
         title="Send a PDF for signature"
         description="We read the text layer locally, match printed names to active accounts at 90% or higher, and let you confirm every box before anything is sent."

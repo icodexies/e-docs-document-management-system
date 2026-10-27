@@ -1,7 +1,8 @@
 import { useState } from "react";
 import ConfirmDialog from "../../../components/ui/ConfirmDialog.jsx";
+import Button from "../../../components/ui/Button.jsx";
 import EmptyState from "../../../components/ui/EmptyState.jsx";
-import PageHero from "../../../components/ui/PageHero.jsx";
+import PageHeader from "../../../components/ui/PageHeader.jsx";
 import Pagination from "../../../components/ui/Pagination.jsx";
 import CreateUserDialog from "../../../components/admin/CreateUserDialog.jsx";
 import UserCard from "../../../components/admin/UserCard.jsx";
@@ -70,18 +71,14 @@ export default function Users() {
 
   return (
     <div className="space-y-6">
-      <PageHero
+      <PageHeader
         eyebrow="Administration"
         title="Users"
         description="Create accounts, promote members to admins, or deactivate access. The first admin is bootstrapped in Supabase; the rest can be added here."
         actions={
-          <button
-            type="button"
-            onClick={() => setCreateOpen(true)}
-            className="rounded-xl bg-white px-4 py-2 text-sm font-semibold text-navy transition-colors hover:bg-slate-100"
-          >
+          <Button type="button" onClick={() => setCreateOpen(true)}>
             Add user
-          </button>
+          </Button>
         }
       />
 
@@ -171,17 +168,21 @@ export default function Users() {
             }
             action={
               search.trim() ? (
-                <button
+                <Button
                   type="button"
+                  variant="secondary"
                   onClick={() => {
                     setSearch("");
                     setPage(1);
                   }}
-                  className="rounded-xl border border-slate-300 bg-surface px-4 py-2 text-sm font-semibold text-slate-700 transition-colors hover:bg-page"
                 >
                   Clear search
-                </button>
-              ) : null
+                </Button>
+              ) : (
+                <Button type="button" onClick={() => setCreateOpen(true)}>
+                  Add user
+                </Button>
+              )
             }
           />
         ) : (

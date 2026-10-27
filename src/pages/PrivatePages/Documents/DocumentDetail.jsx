@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import Button from "../../../components/ui/Button.jsx";
 import ConfirmDialog from "../../../components/ui/ConfirmDialog.jsx";
-import PageHero from "../../../components/ui/PageHero.jsx";
+import PageHeader from "../../../components/ui/PageHeader.jsx";
 import Pagination from "../../../components/ui/Pagination.jsx";
 import StatusBadge from "../../../components/ui/StatusBadge.jsx";
 import DocumentTimeline from "../../../components/documents/DocumentTimeline.jsx";
@@ -65,7 +66,7 @@ export default function DocumentDetail() {
   if (error || !document) {
     return (
       <div className="space-y-4">
-        <PageHero
+        <PageHeader
           eyebrow="Document"
           title="Can't open this document"
           description={
@@ -73,12 +74,9 @@ export default function DocumentDetail() {
             "The document wasn't found, or your account doesn't have access."
           }
         />
-        <Link
-          to="/documents"
-          className="inline-flex rounded-xl border border-slate-300 bg-surface px-4 py-2 text-sm font-semibold text-slate-700 transition-colors hover:bg-page"
-        >
+        <Button to="/documents" variant="secondary">
           Back to documents
-        </Link>
+        </Button>
       </div>
     );
   }
@@ -153,55 +151,53 @@ export default function DocumentDetail() {
 
   return (
     <div className="space-y-6">
-      <PageHero
+      <PageHeader
         eyebrow="Document"
         title={document.title}
         description={`From ${document.owner_name || "the owner"} · created ${formatDate(document.created_at)}`}
         actions={
           <>
             {fileUrl && (
-              <a
+              <Button
                 href={fileUrl}
                 target="_blank"
                 rel="noreferrer"
-                className="rounded-xl bg-white px-4 py-2 text-sm font-semibold text-navy transition-colors hover:bg-slate-100"
+                variant="secondary"
               >
                 Download PDF
-              </a>
+              </Button>
             )}
             {canVoid && (
-              <button
+              <Button
                 type="button"
+                variant="secondary"
                 onClick={() => setPendingAction("void")}
-                className="rounded-xl border border-white/30 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-white/10"
               >
                 Void document
-              </button>
+              </Button>
             )}
             {canDelete && (
-              <button
+              <Button
                 type="button"
+                variant="danger"
                 onClick={() => setPendingAction("delete")}
-                className="rounded-xl border border-white/30 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-white/10"
               >
                 Delete draft
-              </button>
+              </Button>
             )}
           </>
         }
       >
-        <div className="mt-3 flex flex-wrap items-center gap-2">
-          <StatusBadge status={document.status} />
-          <span className="rounded-full border border-white/15 bg-white/10 px-3 py-1.5 text-[11px] font-semibold text-white">
-            {document.signing_mode === "parallel"
-              ? "All at once"
-              : "One at a time"}
-          </span>
-          <span className="rounded-full border border-white/15 bg-white/10 px-3 py-1.5 text-[11px] font-semibold text-white">
-            {progress.signed} of {progress.total} signed
-          </span>
-        </div>
-      </PageHero>
+        <StatusBadge status={document.status} />
+        <span className="rounded-full border border-slate-300 bg-surface px-3 py-1.5 text-[11px] font-semibold text-slate-600">
+          {document.signing_mode === "parallel"
+            ? "All at once"
+            : "One at a time"}
+        </span>
+        <span className="rounded-full border border-slate-300 bg-surface px-3 py-1.5 text-[11px] font-semibold text-slate-600">
+          {progress.signed} of {progress.total} signed
+        </span>
+      </PageHeader>
 
       {actionError && (
         <p

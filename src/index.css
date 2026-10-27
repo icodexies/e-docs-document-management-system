@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
-/* Dark mode is a class on <html> (the theme toggle adds it, a small script in
-   index.html applies it before the first paint). The `dark:` variant targets
+/* Dark mode is a class on <html> (the Appearance menu adds it, a small script
+   in index.html applies it before the first paint). The `dark:` variant targets
    that class instead of the device preference, and never applies inside a
    `.theme-light` scope (the public pages that keep their designed look). */
 @custom-variant dark (&:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)));
@@ -24,6 +24,14 @@
   --color-jade-deep: #0b6b52;
   --color-jade-soft: #e7f4ef;
   --color-jade-line: #bfe3d6;
+
+  /* Typography */
+  --font-sans: "Aptos", "Segoe UI", system-ui, sans-serif;
+  --font-serif: Georgia, "Times New Roman", serif;
+
+  /* Slightly deeper neutrals keep small labels readable on the pale page. */
+  --color-slate-400: #5f6f86;
+  --color-slate-500: #55657a;
 }
 
 /* ---- Dark theme ----------------------------------------------------------
@@ -99,8 +107,8 @@
   --color-slate-100: #f1f5f9;
   --color-slate-200: #e2e8f0;
   --color-slate-300: #cbd5e1;
-  --color-slate-400: #94a3b8;
-  --color-slate-500: #64748b;
+  --color-slate-400: #5f6f86;
+  --color-slate-500: #55657a;
   --color-slate-600: #475569;
   --color-slate-700: #334155;
   --color-slate-800: #1e293b;
@@ -127,9 +135,18 @@
   --color-amber-900: #78350f;
 }
 
+:root {
+  --hero-gradient: linear-gradient(
+    135deg,
+    var(--color-navy) 0%,
+    var(--color-navy) 46%,
+    var(--color-accent) 100%
+  );
+}
+
 /* The page behind everything (public pages paint their own light surfaces). */
 html.dark {
-  background-color: #0a0f21;
+  background-color: var(--color-page);
 }
 
 html {
@@ -154,6 +171,116 @@ body {
   background: color-mix(in srgb, var(--color-accent) 22%, white);
   color: var(--color-navy);
 }
+
+/* Focus visibility is handled once for every interactive control; individual
+   components can still add their own ring where a stronger treatment helps. */
+:where(a, button, input, select, textarea, summary, [tabindex]:not([tabindex="-1"])):focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+.page-hero {
+  background-image: var(--hero-gradient);
+}
+
+html.dark .page-hero {
+  --hero-gradient: linear-gradient(
+    135deg,
+    var(--color-navy) 0%,
+    var(--color-navy) 46%,
+    var(--color-navy-deep) 100%
+  );
+}
+
+html.dark .theme-light .page-hero {
+  --hero-gradient: linear-gradient(
+    135deg,
+    var(--color-navy) 0%,
+    var(--color-navy) 46%,
+    var(--color-accent) 100%
+  );
+}
+
+
+
+
+
+/* ---- Page headers -------------------------------------------------------
+   Task screens use a compact, descriptive header instead of a full decorative
+   hero above every table, form and document. The hierarchy and actions stay
+   consistent across the workspace. */
+.page-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1.25rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--color-slate-200);
+}
+
+.page-header__copy {
+  min-width: 0;
+  max-width: 46rem;
+}
+
+.page-header__eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  color: var(--color-slate-500);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  line-height: 1.3;
+  text-transform: uppercase;
+}
+
+.page-header__eyebrow::before {
+  width: 0.25rem;
+  height: 1rem;
+  border-radius: 999px;
+  background: var(--color-navy);
+  content: "";
+}
+
+.page-header__title {
+  margin-top: 0.5rem;
+  color: var(--color-ink);
+  font-family: var(--font-serif);
+  font-size: clamp(1.75rem, 2.6vw, 2.35rem);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.12;
+  text-wrap: balance;
+}
+
+.page-header__description {
+  max-width: 44rem;
+  margin-top: 0.55rem;
+  color: var(--color-slate-600);
+  font-size: 0.875rem;
+  line-height: 1.65;
+}
+
+.page-header__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.9rem;
+}
+
+.page-header__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+
+
+
+
 
 /* ---- Display size (member workspace) -------------------------------------
    Three levels: normal, large and extra large. On large screens the larger

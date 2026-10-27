@@ -9,6 +9,9 @@ This is a self-hosted document management and electronic signature project.
 Each installation connects to its own Supabase project; no shared database or
 account credentials are included in this repository.
 
+The UI/UX decisions and the accessibility checks are documented in
+`docs/UI-UX-REVIEW.md`.
+
 ## Stack
 
 Vite 8 · React 19 · JavaScript · React Router 7 · Tailwind CSS 4 · Supabase
@@ -56,8 +59,9 @@ The project includes these frontend features:
   page.
 - **Accounts:** admin-created users, roles, profile photos and stored
   signatures.
-- **Workspace:** dark mode, three display sizes on large screens, numbered
-  pagination and uploader-visible “Viewed” timestamps.
+- **Workspace:** a single Appearance menu for system/light/dark mode and three
+  text sizes on large screens, compact task headers, keyboard-visible focus,
+  skip links, numbered pagination and uploader-visible “Viewed” timestamps.
 
 `supabase/functions/sign-document/` performs the signing operation.
 `supabase/functions/admin-create-user/` provisions accounts from **Users → Add
@@ -277,7 +281,7 @@ src/context      auth, theme and display-size providers
 src/routes       roles, guards, the page list
 supabase/        reset, migration, Edge Functions
 tests/           node:test suites, including real-pdf.js extraction fixtures
-docs/            setup, matching and verification notes
+docs/            setup, matching, UI/UX review and verification notes
 ```
 
 ## Manual verification still required

@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
+import Button from "../../../components/ui/Button.jsx";
 import EmptyState from "../../../components/ui/EmptyState.jsx";
-import PageHero from "../../../components/ui/PageHero.jsx";
+import PageHeader from "../../../components/ui/PageHeader.jsx";
 import Pagination from "../../../components/ui/Pagination.jsx";
 import SignatureRequestCard from "../../../components/documents/SignatureRequestCard.jsx";
 import { useAuth } from "../../../hooks/auth/useAuth.js";
@@ -22,17 +23,14 @@ export default function AwaitingSignatures() {
 
   return (
     <div className="space-y-6">
-      <PageHero
+      <PageHeader
         eyebrow="Signatures"
         title="Awaiting your signature"
         description="Documents routed to you. Open one to review the full PDF before applying your stored signature."
         actions={
-          <Link
-            to="/documents"
-            className="rounded-xl border border-white/30 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-white/10"
-          >
+          <Button to="/documents" variant="secondary">
             My documents
-          </Link>
+          </Button>
         }
       />
 
@@ -99,15 +97,12 @@ export default function AwaitingSignatures() {
           </div>
         ) : items.length === 0 ? (
           <EmptyState
-            title="Nothing waiting"
-            description="When someone routes a document to you, it will appear here."
+            title="You're all caught up"
+            description="When someone routes a document to you for signature, it will appear here."
             action={
-              <Link
-                to="/dashboard"
-                className="rounded-xl border border-slate-300 bg-surface px-4 py-2 text-sm font-semibold text-slate-700 transition-colors hover:bg-page"
-              >
+              <Button to="/dashboard" variant="secondary" size="sm">
                 Back to the dashboard
-              </Link>
+              </Button>
             }
           />
         ) : (

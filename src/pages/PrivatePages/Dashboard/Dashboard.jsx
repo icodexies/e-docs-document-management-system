@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import DashboardAnalytics from "../../../components/dashboard/DashboardAnalytics.jsx";
+import Button from "../../../components/ui/Button.jsx";
 import PageHero from "../../../components/ui/PageHero.jsx";
 import StatCard from "../../../components/ui/StatCard.jsx";
 import { useAuth } from "../../../hooks/auth/useAuth.js";
@@ -22,25 +23,19 @@ export default function Dashboard() {
   const hasSignature = Boolean(profile?.signature_path);
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
       <PageHero
         eyebrow="Dashboard"
-        title={`Welcome${profile?.full_name ? `, ${profile.full_name}` : ""}`}
-        description="A snapshot of your uploads, approvals, and signing performance."
+        title={`Welcome back${profile?.full_name ? `, ${profile.full_name}` : ""}`}
+        description="Here is how your documents, signatures, and approvals are moving."
         actions={
           <>
-            <Link
-              to="/documents/new"
-              className="rounded-xl bg-white px-4 py-2 text-sm font-semibold text-navy transition-colors hover:bg-slate-100"
-            >
-              Upload a document
-            </Link>
-            <Link
-              to="/awaiting"
-              className="rounded-xl border border-white/30 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-white/10"
-            >
-              Awaiting my signature
-            </Link>
+            <Button to="/documents/new" variant="inverse">
+              New document
+            </Button>
+            <Button to="/awaiting" variant="inverseOutline">
+              Review requests
+            </Button>
           </>
         }
       >

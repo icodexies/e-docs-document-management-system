@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import Button from "../../../components/ui/Button.jsx";
 import PageHero from "../../../components/ui/PageHero.jsx";
 
 const STEPS = [
@@ -16,29 +16,101 @@ const STEPS = [
   },
 ];
 
+function DocumentPreview() {
+  const signers = [
+    { name: "Juan Dela Cruz", role: "Department Head", signed: true },
+    { name: "Maria Santos", role: "HR Manager", signed: true },
+    { name: "Pedro Reyes", role: "Operations Officer", signed: false },
+  ];
+
+  return (
+    <div className="relative mx-auto w-full max-w-sm" aria-hidden="true">
+      <div
+        aria-hidden="true"
+        className="absolute -inset-3 rotate-3 rounded-3xl border border-white/15 bg-white/5"
+      />
+      <div className="relative -rotate-1 rounded-2xl border border-white/40 bg-surface p-5 text-ink shadow-[0_28px_60px_-30px_rgba(0,0,0,0.55)]">
+        <div className="flex items-center justify-between gap-3 border-b border-slate-200 pb-3">
+          <div>
+            <p className="text-[9px] font-bold uppercase tracking-[0.16em] text-slate-500">
+              Approval request
+            </p>
+            <p className="mt-1 font-serif text-lg font-bold leading-tight">
+              Travel request 2026
+            </p>
+          </div>
+          <span className="rounded-full bg-amber-50 px-2.5 py-1 text-[9px] font-bold uppercase tracking-[0.08em] text-amber-800">
+            In review
+          </span>
+        </div>
+
+        <div className="mt-3 flex items-center gap-2 text-[10px] text-slate-500">
+          <span>Finance</span>
+          <span aria-hidden="true">·</span>
+          <span>2 pages</span>
+          <span aria-hidden="true">·</span>
+          <span>Oct 27</span>
+        </div>
+
+        <div className="mt-4 space-y-2">
+          {signers.map((signer) => (
+            <div
+              key={signer.name}
+              className="flex items-center justify-between gap-3 rounded-xl border border-slate-100 bg-page/70 px-3 py-2.5"
+            >
+              <div className="min-w-0">
+                <p className="truncate text-xs font-semibold text-ink">
+                  {signer.name}
+                </p>
+                <p className="truncate text-[10px] text-slate-500">
+                  {signer.role}
+                </p>
+              </div>
+              <span
+                className={`shrink-0 rounded-full px-2 py-1 text-[9px] font-bold ${
+                  signer.signed
+                    ? "bg-jade-soft text-jade-deep"
+                    : "bg-amber-50 text-amber-800"
+                }`}
+              >
+                {signer.signed ? "Signed" : "Pending"}
+              </span>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-4 border-t border-slate-200 pt-3">
+          <div className="flex items-center justify-between text-[10px] text-slate-500">
+            <span>Completion</span>
+            <span>2 of 3 signatures</span>
+          </div>
+          <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-tint">
+            <div className="h-full w-2/3 rounded-full bg-jade" />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function Home() {
   return (
-    <main className="mx-auto max-w-6xl space-y-8 px-6 py-10 sm:py-14">
+    <main id="public-content" className="mx-auto max-w-6xl space-y-8 px-6 py-10 sm:py-14">
       <PageHero
         eyebrow="E-Docs"
         title="Send a PDF. Route it to the right people. Keep the proof."
         description="E-Docs reads the printed names on your document, matches them to the right accounts, and collects signatures in order — with a hash and audit trail behind every approval."
         actions={
           <>
-            <Link
-              to="/login"
-              className="rounded-xl bg-white px-4 py-2 text-sm font-semibold text-navy transition-colors hover:bg-slate-100"
-            >
+            <Button to="/login" variant="inverse">
               Sign in
-            </Link>
-            <a
-              href="#how-it-works"
-              className="rounded-xl border border-white/30 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-white/10"
-            >
+            </Button>
+            <Button href="#how-it-works" variant="inverseOutline">
               How it works
-            </a>
+            </Button>
           </>
         }
+        media={<DocumentPreview />}
       />
 
       <section id="how-it-works" className="space-y-4">

@@ -4,12 +4,12 @@ export default function PageHero({
   description,
   children,
   actions,
-  cornerAction,
+  media,
   className = "",
 }) {
   return (
     <section
-      className={`relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-navy via-navy to-accent px-5 py-7 text-white shadow-[0_24px_60px_-36px_rgba(11,19,48,0.65)] dark:to-navy-deep sm:px-9 sm:py-9 ${className}`}
+      className={`page-hero relative overflow-hidden rounded-3xl border border-white/10 px-5 py-7 text-white shadow-[0_24px_60px_-36px_rgba(11,19,48,0.65)] sm:px-9 sm:py-9 ${className}`}
     >
       <div
         aria-hidden="true"
@@ -24,28 +24,31 @@ export default function PageHero({
         className="pointer-events-none absolute -right-8 -top-12 h-40 w-40 rounded-full border border-white/10"
       />
 
-      {cornerAction && (
-        <div className="relative z-10 mb-4 flex justify-end sm:absolute sm:right-9 sm:top-9 sm:mb-0">
-          {cornerAction}
+      <div
+        className={`relative ${
+          media
+            ? "grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(17rem,0.62fr)] lg:items-center"
+            : ""
+        }`}
+      >
+        <div className="max-w-4xl">
+          {eyebrow && (
+            <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white/60">
+              {eyebrow}
+            </p>
+          )}
+          <h1 className="page-hero__title mt-2 text-balance font-serif text-3xl font-bold tracking-tight sm:text-4xl">
+            {title}
+          </h1>
+          {description && (
+            <p className="mt-3 max-w-2xl text-sm leading-6 text-white/75">
+              {description}
+            </p>
+          )}
+          {children}
+          {actions && <div className="mt-6 flex flex-wrap gap-3">{actions}</div>}
         </div>
-      )}
-
-      <div className="relative max-w-4xl">
-        {eyebrow && (
-          <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white/50">
-            {eyebrow}
-          </p>
-        )}
-        <h1 className="mt-2 text-balance font-serif text-3xl font-bold tracking-tight sm:text-4xl">
-          {title}
-        </h1>
-        {description && (
-          <p className="mt-3 max-w-2xl text-sm leading-6 text-white/70">
-            {description}
-          </p>
-        )}
-        {children}
-        {actions && <div className="mt-6 flex flex-wrap gap-3">{actions}</div>}
+        {media && <div className="relative hidden lg:block">{media}</div>}
       </div>
     </section>
   );

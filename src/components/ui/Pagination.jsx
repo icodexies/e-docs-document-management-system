@@ -1,7 +1,7 @@
 import { pageWindow } from "../../services/pagination.js";
 
 const PAGE_BUTTON =
-  "inline-flex h-8 min-w-8 items-center justify-center rounded-lg border px-2 text-xs font-semibold transition-colors disabled:cursor-not-allowed disabled:border-slate-200 disabled:bg-slate-100 disabled:text-slate-400";
+  "inline-flex h-10 min-w-10 items-center justify-center rounded-lg border px-2 text-xs font-semibold transition-colors disabled:cursor-not-allowed disabled:border-slate-200 disabled:bg-slate-100 disabled:text-slate-400";
 
 export default function Pagination({
   page = 1,

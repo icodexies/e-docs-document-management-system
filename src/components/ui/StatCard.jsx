@@ -18,7 +18,7 @@ export default function StatCard({
     >
       <span
         aria-hidden="true"
-        className={`absolute inset-x-0 top-0 h-1 ${TONES[tone] ?? TONES.navy}`}
+        className={`absolute inset-x-0 top-0 h-0.5 ${TONES[tone] ?? TONES.navy}`}
       />
       <div className="flex items-start justify-between gap-3">
         <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-500">

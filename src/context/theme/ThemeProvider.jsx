@@ -42,19 +42,29 @@ export function ThemeProvider({ children }) {
       ?.setAttribute("content", dark ? "#0a0f21" : "#0b1330");
   }, [theme]);
 
-  const toggleTheme = useCallback(() => {
-    setChoice((current) => {
-      const next = (current ?? systemTheme()) === "dark" ? "light" : "dark";
+  const setTheme = useCallback((next) => {
+    if (next === "system") {
+      setChoice(null);
       try {
-        window.localStorage.setItem(STORAGE_KEY, next);
+        window.localStorage.removeItem(STORAGE_KEY);
       } catch {
-        // Storage can be blocked; the theme still switches for this visit.
+        // Storage can be blocked; the device preference still applies now.
       }
-      return next;
-    });
+      return;
+    }
+    if (next !== "light" && next !== "dark") return;
+    setChoice(next);
+    try {
+      window.localStorage.setItem(STORAGE_KEY, next);
+    } catch {
+      // Storage can be blocked; the theme still switches for this visit.
+    }
   }, []);
 
-  const value = useMemo(() => ({ theme, toggleTheme }), [theme, toggleTheme]);
+  const value = useMemo(
+    () => ({ theme, choice, setTheme }),
+    [theme, choice, setTheme],
+  );
 
   return (
     <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>

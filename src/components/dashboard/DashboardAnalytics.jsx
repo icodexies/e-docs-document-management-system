@@ -211,27 +211,29 @@ function CompletionGauge({ rate, completedCount, sentCount, averageDays }) {
         </div>
       </div>
 
-      <dl className="grid min-w-0 flex-1 gap-3">
-        <div className="-mx-2 rounded-lg px-2 py-1 transition-colors hover:bg-page">
-          <dt className="text-[10px] font-semibold uppercase tracking-[0.12em] text-slate-500">
-            Completed documents
-          </dt>
-          <dd className="mt-0.5 text-sm font-semibold text-ink">
-            {completedCount} of {sentCount} sent
-          </dd>
-        </div>
-        <div className="-mx-2 rounded-lg px-2 py-1 transition-colors hover:bg-page">
-          <dt className="text-[10px] font-semibold uppercase tracking-[0.12em] text-slate-500">
-            Average completion
-          </dt>
-          <dd className="mt-0.5 text-sm font-semibold text-ink">
-            {averageDays === null ? "No completed documents yet" : `${averageDays} days`}
-          </dd>
-        </div>
-        <p className="text-[10px] leading-relaxed text-slate-400">
+      <div className="min-w-0 flex-1">
+        <dl className="grid gap-3">
+          <div className="-mx-2 rounded-lg px-2 py-1 transition-colors hover:bg-page">
+            <dt className="text-[10px] font-semibold uppercase tracking-[0.12em] text-slate-500">
+              Completed documents
+            </dt>
+            <dd className="mt-0.5 text-sm font-semibold text-ink">
+              {completedCount} of {sentCount} sent
+            </dd>
+          </div>
+          <div className="-mx-2 rounded-lg px-2 py-1 transition-colors hover:bg-page">
+            <dt className="text-[10px] font-semibold uppercase tracking-[0.12em] text-slate-500">
+              Average completion
+            </dt>
+            <dd className="mt-0.5 text-sm font-semibold text-ink">
+              {averageDays === null ? "No completed documents yet" : `${averageDays} days`}
+            </dd>
+          </div>
+        </dl>
+        <p className="mt-3 text-[10px] leading-relaxed text-slate-400">
           Excludes drafts and voided documents.
         </p>
-      </dl>
+      </div>
     </div>
   );
 }

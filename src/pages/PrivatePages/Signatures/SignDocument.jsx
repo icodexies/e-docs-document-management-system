@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, useParams } from "react-router-dom";
+import Button from "../../../components/ui/Button.jsx";
 import ConfirmDialog from "../../../components/ui/ConfirmDialog.jsx";
-import PageHero from "../../../components/ui/PageHero.jsx";
+import PageHeader from "../../../components/ui/PageHeader.jsx";
 import StatusBadge from "../../../components/ui/StatusBadge.jsx";
 import { Spinner } from "../../../components/ui/Loading.jsx";
 import PdfViewer from "../../../components/documents/PdfViewer.jsx";
@@ -59,7 +60,7 @@ export default function SignDocument() {
   if (error || !context) {
     return (
       <div className="space-y-4">
-        <PageHero
+        <PageHeader
           eyebrow="Sign document"
           title="Can't open this signature request"
           description={
@@ -67,12 +68,9 @@ export default function SignDocument() {
             "The request wasn't found, or it isn't assigned to your account."
           }
         />
-        <Link
-          to="/awaiting"
-          className="inline-flex rounded-xl border border-slate-300 bg-surface px-4 py-2 text-sm font-semibold text-slate-700 transition-colors hover:bg-page"
-        >
+        <Button to="/awaiting" variant="secondary">
           Back to awaiting signatures
-        </Link>
+        </Button>
       </div>
     );
   }
@@ -139,7 +137,7 @@ export default function SignDocument() {
 
   return (
     <div className="space-y-6">
-      <PageHero
+      <PageHeader
         eyebrow="Sign document"
         title={document.title}
         description={`From ${document.owner_name || "the owner"} · ${
@@ -148,22 +146,17 @@ export default function SignDocument() {
             : "PDF"
         }`}
         actions={
-          <Link
-            to="/awaiting"
-            className="rounded-xl border border-white/30 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-white/10"
-          >
+          <Button to="/awaiting" variant="secondary">
             Back to awaiting
-          </Link>
+          </Button>
         }
       >
-        <div className="mt-3 flex flex-wrap items-center gap-2">
-          <StatusBadge status={document.status} />
-          <StatusBadge status={signatory.status} />
-          <span className="rounded-full border border-white/15 bg-white/10 px-3 py-1.5 text-[11px] font-semibold text-white">
-            Page {signatory.page_number}
-          </span>
-        </div>
-      </PageHero>
+        <StatusBadge status={document.status} />
+        <StatusBadge status={signatory.status} />
+        <span className="rounded-full border border-slate-300 bg-surface px-3 py-1.5 text-[11px] font-semibold text-slate-600">
+          Page {signatory.page_number}
+        </span>
+      </PageHeader>
 
       {signError && (
         <p
