@@ -1,0 +1,62 @@
+# The CI/CD pipeline: verify every push, then publish to Netlify.
+#
+#   Verify  — installs, lints, runs the tests and builds (every push and PR).
+#   Deploy  — on main only: builds again and uploads the site to Netlify
+#             through the Netlify API (scripts/deploy-netlify.mjs).
+#
+# Optional build variables (Settings → Secrets and variables → Actions → Variables):
+#   VITE_SUPABASE_URL             — your Supabase project URL
+#   VITE_SUPABASE_PUBLISHABLE_KEY — your publishable/anon key (public by design)
+#
+# The deploy step needs two repository secrets:
+#   NETLIFY_AUTH_TOKEN  — a Netlify personal access token
+#   NETLIFY_SITE_ID     — the site's API ID (Site configuration → Site ID)
+name: CI/CD
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  verify:
+    name: Verify (lint, tests, build)
+    runs-on: ubuntu-latest
+    env:
+      VITE_SUPABASE_URL: ${{ vars.VITE_SUPABASE_URL }}
+      VITE_SUPABASE_PUBLISHABLE_KEY: ${{ vars.VITE_SUPABASE_PUBLISHABLE_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - run: npm ci
+      - run: npm run lint
+      - run: npm test
+      - run: npm run build
+
+  deploy:
+    name: Deploy to Netlify
+    needs: verify
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+    env:
+      NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+      NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+      VITE_SUPABASE_URL: ${{ vars.VITE_SUPABASE_URL }}
+      VITE_SUPABASE_PUBLISHABLE_KEY: ${{ vars.VITE_SUPABASE_PUBLISHABLE_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - name: Netlify secrets not set yet
+        if: env.NETLIFY_AUTH_TOKEN == '' || env.NETLIFY_SITE_ID == ''
+        run: echo "Skipping publish — add NETLIFY_AUTH_TOKEN and NETLIFY_SITE_ID under Settings → Secrets and variables → Actions."
+      - name: Publish the built site
+        if: env.NETLIFY_AUTH_TOKEN != '' && env.NETLIFY_SITE_ID != ''
+        run: node scripts/deploy-netlify.mjs

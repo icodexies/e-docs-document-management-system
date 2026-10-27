@@ -1,0 +1,199 @@
+@import "tailwindcss";
+
+/* Dark mode is a class on <html> (the theme toggle adds it, a small script in
+   index.html applies it before the first paint). The `dark:` variant targets
+   that class instead of the device preference, and never applies inside a
+   `.theme-light` scope (the public pages that keep their designed look). */
+@custom-variant dark (&:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)));
+
+/* Design tokens — the ONE place the palette lives (see docs/06).
+   Utilities are generated from these names: bg-navy, text-ink, text-accent,
+   bg-page, bg-tint, bg-surface, text-jade. Change a value here once and the
+   whole system follows. Never hard-code a hex value in a component. */
+@theme {
+  /* Brand */
+  --color-navy: #0b1330; /* navy surfaces: heroes, primary buttons, active pills */
+  --color-navy-deep: #17214a; /* mid navy used inside the modal gradient */
+  --color-ink: #0b1330; /* navy ink on light surfaces */
+  --color-accent: #3b4a86; /* indigo text and accents */
+  --color-page: #f7f6fb; /* page background */
+  --color-tint: #f0edfa; /* lavender chips, tiles, skeletons */
+  --color-surface: #ffffff; /* cards, panels, inputs, dialogs */
+  /* Success (jade) */
+  --color-jade: #0f8a6b;
+  --color-jade-deep: #0b6b52;
+  --color-jade-soft: #e7f4ef;
+  --color-jade-line: #bfe3d6;
+}
+
+/* ---- Dark theme ----------------------------------------------------------
+   Only token values change here; component class names stay the same. */
+.dark {
+  color-scheme: dark;
+
+  --color-navy: #1d2750; /* lifted so panels stand out on the dark page */
+  --color-navy-deep: #253163;
+  --color-ink: #eaedf9;
+  --color-accent: #a6b0ea;
+  --color-page: #0a0f21;
+  --color-tint: #1e2749;
+  --color-surface: #141b33;
+  --color-jade: #3bcb9d;
+  --color-jade-deep: #8fe2c4;
+  --color-jade-soft: #113227;
+  --color-jade-line: #2b5a48;
+
+  /* Slate scale, flipped for dark surfaces. */
+  --color-slate-50: #161d38;
+  --color-slate-100: #1c2444;
+  --color-slate-200: #273057;
+  --color-slate-300: #3a4471;
+  --color-slate-400: #7e89b0;
+  --color-slate-500: #9aa4c8;
+  --color-slate-600: #b8c0dd;
+  --color-slate-700: #cdd3ea;
+  --color-slate-800: #e0e4f4;
+  --color-slate-900: #eef1fa;
+  --color-slate-950: #f8f9fe;
+
+  /* Status scales: soft backgrounds and deep texts get dark counterparts. */
+  --color-red-50: #2b161b;
+  --color-red-100: #3b1d24;
+  --color-red-200: #5b2a34;
+  --color-red-300: #8c4a52;
+  --color-red-500: #f87171;
+  --color-red-600: #f87171;
+  --color-red-700: #fca5a5;
+  --color-red-800: #fecaca;
+  --color-amber-50: #2b2110;
+  --color-amber-100: #3b2f16;
+  --color-amber-200: #57441f;
+  --color-amber-300: #8f7130;
+  --color-amber-400: #d9a23e;
+  --color-amber-500: #f0b429;
+  --color-amber-600: #f5c34d;
+  --color-amber-700: #f7d06e;
+  --color-amber-800: #fadf9b;
+  --color-amber-900: #fcebc0;
+}
+
+/* Public pages keep their designed light look in both themes. This scope
+   re-applies the light palette inside a dark document. */
+.theme-light {
+  color-scheme: light;
+  color: var(--color-ink);
+
+  --color-navy: #0b1330;
+  --color-navy-deep: #17214a;
+  --color-ink: #0b1330;
+  --color-accent: #3b4a86;
+  --color-page: #f7f6fb;
+  --color-tint: #f0edfa;
+  --color-surface: #ffffff;
+  --color-jade: #0f8a6b;
+  --color-jade-deep: #0b6b52;
+  --color-jade-soft: #e7f4ef;
+  --color-jade-line: #bfe3d6;
+
+  --color-slate-50: #f8fafc;
+  --color-slate-100: #f1f5f9;
+  --color-slate-200: #e2e8f0;
+  --color-slate-300: #cbd5e1;
+  --color-slate-400: #94a3b8;
+  --color-slate-500: #64748b;
+  --color-slate-600: #475569;
+  --color-slate-700: #334155;
+  --color-slate-800: #1e293b;
+  --color-slate-900: #0f172a;
+  --color-slate-950: #020617;
+
+  --color-red-50: #fef2f2;
+  --color-red-100: #fee2e2;
+  --color-red-200: #fecaca;
+  --color-red-300: #fca5a5;
+  --color-red-500: #ef4444;
+  --color-red-600: #dc2626;
+  --color-red-700: #b91c1c;
+  --color-red-800: #991b1b;
+  --color-amber-50: #fffbeb;
+  --color-amber-100: #fef3c7;
+  --color-amber-200: #fde68a;
+  --color-amber-300: #fcd34d;
+  --color-amber-400: #fbbf24;
+  --color-amber-500: #f59e0b;
+  --color-amber-600: #d97706;
+  --color-amber-700: #b45309;
+  --color-amber-800: #92400e;
+  --color-amber-900: #78350f;
+}
+
+/* The page behind everything (public pages paint their own light surfaces). */
+html.dark {
+  background-color: #0a0f21;
+}
+
+html {
+  scrollbar-gutter: stable;
+}
+
+body {
+  min-width: 320px;
+  background-color: var(--color-page);
+  background-image: radial-gradient(
+    circle at 50% -20%,
+    color-mix(in srgb, var(--color-tint) 72%, transparent),
+    transparent 58%
+  );
+  background-attachment: fixed;
+  color: var(--color-ink);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--color-accent) 22%, white);
+  color: var(--color-navy);
+}
+
+/* ---- Display size (member workspace) -------------------------------------
+   Three levels: normal, large and extra large. On large screens the larger
+   levels raise the root rem size, so typography, spacing, cards and the
+   sidebar all grow together while the sticky layout keeps its structure.
+   Smaller screens always keep their designed sizes. See DisplaySizeProvider. */
+@media (min-width: 1024px) {
+  html[data-ui-size="large"] {
+    font-size: 18px;
+    --ui-label-scale: 1.125;
+  }
+
+  html[data-ui-size="larger"] {
+    font-size: 20px;
+    --ui-label-scale: 1.25;
+  }
+
+  html[data-ui-size="large"] [class*="text-[9px]"],
+  html[data-ui-size="larger"] [class*="text-[9px]"] {
+    font-size: calc(9px * var(--ui-label-scale));
+  }
+
+  html[data-ui-size="large"] [class*="text-[10px]"],
+  html[data-ui-size="larger"] [class*="text-[10px]"] {
+    font-size: calc(10px * var(--ui-label-scale));
+  }
+
+  html[data-ui-size="large"] [class*="text-[11px]"],
+  html[data-ui-size="larger"] [class*="text-[11px]"] {
+    font-size: calc(11px * var(--ui-label-scale));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

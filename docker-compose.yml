@@ -1,0 +1,8 @@
+# One command:  docker compose up --build   →   http://localhost:8080
+services:
+  app:
+    build: .
+    image: e-docs
+    ports:
+      - "8080:80"
+    restart: unless-stopped

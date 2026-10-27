@@ -1,0 +1,8 @@
+-- E-Docs development seed.
+--
+-- Accounts are created through Supabase Auth (dashboard → Authentication →
+-- Users), not here: auth.users is managed by the auth service, and the
+-- on_auth_user_created trigger creates the matching profile.
+--
+-- This file is intentionally empty. Use fake accounts and documents in a
+-- local project; never copy real personal data into the repository.

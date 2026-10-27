@@ -1,0 +1,90 @@
+# Supabase local development + function configuration.
+# Full reference: https://supabase.com/docs/guides/local-development/cli/config
+project_id = "e-docs"
+
+[api]
+enabled = true
+port = 54321
+# Schemas exposed through the API. Keep this list short — helper functions
+# live in `app_private`, which is deliberately NOT listed here.
+schemas = ["public", "graphql_public"]
+extra_search_path = ["public", "extensions"]
+# The maximum rows a single request can return; protects against accidental
+# full-table downloads.
+max_rows = 1000
+
+[db]
+port = 54322
+shadow_port = 54320
+major_version = 17
+
+[db.migrations]
+enabled = true
+
+[db.seed]
+enabled = true
+sql_paths = ["./seed.sql"]
+
+[studio]
+enabled = true
+port = 54323
+
+# Email testing server: locally sent emails are captured here, not delivered.
+[local_smtp]
+enabled = true
+port = 54324
+
+[storage]
+enabled = true
+file_size_limit = "50MiB"
+
+[auth]
+enabled = true
+# Change to the real local address of `npm run dev` if different.
+site_url = "http://localhost:5173"
+additional_redirect_urls = ["http://127.0.0.1:5173"]
+jwt_expiry = 3600
+enable_refresh_token_rotation = true
+refresh_token_reuse_interval = 10
+# Accounts are provisioned (admin-created), not self-registered. Turn this on
+# only together with a reviewed registration endpoint — see docs/05.
+enable_signup = false
+minimum_password_length = 8
+password_requirements = "letters_digits"
+# In production also enable leaked password protection (Dashboard →
+# Authentication → Passwords) and configure real SMTP.
+
+[auth.rate_limit]
+email_sent = 2
+sign_in_sign_ups = 30
+token_verifications = 30
+
+[auth.email]
+# E-Docs provisions accounts from the Supabase dashboard; self-signup is off.
+enable_signup = false
+enable_confirmations = false
+
+[edge_runtime]
+enabled = true
+policy = "per_worker"
+deno_version = 2
+
+[analytics]
+enabled = true
+port = 54327
+
+# --- Edge Functions ---------------------------------------------------------
+# verify_jwt = true is the default: callers need a valid login. Only function
+# folders listed here (or deployed with flags) get custom settings.
+
+[functions.sign-document]
+enabled = true
+# Login required (default). The function also checks that the caller is the
+# assigned signatory and that a signature is on file.
+entrypoint = "./functions/sign-document/index.ts"
+
+[functions.admin-create-user]
+enabled = true
+# Login required (default). The function also checks that the caller is an
+# active admin before creating an Auth user + profile.
+entrypoint = "./functions/admin-create-user/index.ts"
