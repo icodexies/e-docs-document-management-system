@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom";
+import { useDocumentTitle } from "../hooks/shared/useDocumentTitle.js";
 
 export default function Unauthorized() {
+  useDocumentTitle("Access denied · E-Docs");
+
   return (
     <div className="theme-light flex min-h-screen items-center justify-center bg-page px-6 text-ink">
       <div className="max-w-sm text-center">

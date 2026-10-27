@@ -1,5 +1,6 @@
 import Button from "../../../components/ui/Button.jsx";
 import PageHero from "../../../components/ui/PageHero.jsx";
+import { useDocumentTitle } from "../../../hooks/shared/useDocumentTitle.js";
 
 const STEPS = [
   {
@@ -94,6 +95,8 @@ function DocumentPreview() {
 }
 
 export default function Home() {
+  useDocumentTitle("E-Docs — Document Management System");
+
   return (
     <main id="public-content" className="mx-auto max-w-6xl space-y-8 px-6 py-10 sm:py-14">
       <PageHero

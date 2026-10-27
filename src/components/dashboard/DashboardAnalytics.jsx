@@ -61,6 +61,23 @@ function UploadBars({ months, totalUploads }) {
       )
     : 0;
 
+  if (totalUploads === 0) {
+    return (
+      <div className="flex h-48 flex-col items-center justify-center rounded-xl border border-dashed border-slate-200 bg-page/50 px-4 text-center">
+        <p className="font-serif text-lg font-bold text-ink">No uploads yet</p>
+        <p className="mt-1 max-w-xs text-xs leading-5 text-slate-500">
+          The last six months have no uploads. New documents will appear here.
+        </p>
+        <Link
+          to="/documents/new"
+          className="mt-3 inline-flex min-h-10 items-center rounded-lg bg-navy px-3 text-xs font-semibold text-white transition-colors hover:bg-navy-deep"
+        >
+          New document
+        </Link>
+      </div>
+    );
+  }
+
   return (
     <div>
       <p className="mb-3 text-xs text-slate-500">
@@ -376,7 +393,7 @@ function LoadingCharts() {
 
 export default function DashboardAnalytics({ metrics, loading, onRefresh }) {
   return (
-    <section className="space-y-5" aria-busy={loading}>
+    <section className="space-y-5 tabular-nums" aria-busy={loading}>
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
           <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-accent">

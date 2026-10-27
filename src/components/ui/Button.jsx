@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 
 const BASE =
-  "inline-flex shrink-0 items-center justify-center gap-2 rounded-xl font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent disabled:cursor-not-allowed disabled:opacity-50";
+  "inline-flex shrink-0 items-center justify-center gap-2 rounded-xl font-semibold transition duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent active:translate-y-px disabled:cursor-not-allowed disabled:opacity-50";
 
 const VARIANTS = {
   primary: "bg-navy text-white shadow-sm hover:bg-navy-deep",

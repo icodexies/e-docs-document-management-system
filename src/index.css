@@ -179,6 +179,37 @@ body {
   outline-offset: 2px;
 }
 
+button:not(:disabled),
+[role="button"]:not([aria-disabled="true"]) {
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+a,
+button,
+input,
+select,
+textarea,
+summary {
+  touch-action: manipulation;
+}
+
+@keyframes page-in {
+  from {
+    transform: translateY(4px);
+  }
+  to {
+    transform: none;
+  }
+}
+
+.page-transition {
+  animation: page-in 220ms ease-out both;
+}
+
 .page-hero {
   background-image: var(--hero-gradient);
 }

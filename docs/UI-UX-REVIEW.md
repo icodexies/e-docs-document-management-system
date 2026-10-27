@@ -1,7 +1,8 @@
 # UI/UX review and update
 
-This pass used the design-critique, design-system, accessibility-review and
-ux-copy checklists. The navy / lavender / jade palette was deliberately kept.
+This pass used the design-critique, design-system, accessibility-review, ux-copy
+and UI UX Pro Max checklists. The navy / lavender / jade palette was deliberately
+kept.
 
 ## What changed
 
@@ -36,6 +37,26 @@ The header is quieter and the menu has room to explain the settings.
 The public hero now includes a lightweight document preview that shows the core
 product idea: a document, its signatories and completion state. It is decorative
 for assistive technology because the hero copy already explains the workflow.
+
+### Denser admin and data views
+
+- The Users directory switches to a proper desktop table: account, role, status,
+  signature, joined date and actions. The card layout remains on smaller screens.
+- Long names and details truncate safely, dates use tabular figures, and row
+  actions stay aligned at 1024–1440px.
+- The dashboard chart shows a purposeful empty state when there are no uploads
+  instead of an empty axis frame.
+- The document detail screen makes **Download PDF** the primary action.
+
+### Navigation and feedback
+
+- Route changes move focus to the main content, reset scroll and update the page
+  title for screen readers and browser tabs.
+- A short transform-only page transition keeps navigation feeling connected;
+  reduced-motion users get the final state immediately.
+- Login now has a show/hide password control with a 44px target.
+- Buttons gain a restrained press response and pointer feedback; numeric columns
+  use tabular figures.
 
 ### Consistent actions and empty states
 

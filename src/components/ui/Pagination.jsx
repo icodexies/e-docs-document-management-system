@@ -31,7 +31,7 @@ export default function Pagination({
   return (
     <nav
       aria-label="Pagination"
-      className={`flex flex-wrap items-center justify-between gap-3 border-t border-slate-200 pt-4 ${className}`}
+      className={`flex flex-wrap items-center justify-between gap-3 border-t border-slate-200 pt-4 tabular-nums ${className}`}
     >
       <p className="text-xs text-slate-500">
         Page {current} of {last}

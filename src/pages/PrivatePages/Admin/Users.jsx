@@ -6,6 +6,7 @@ import PageHeader from "../../../components/ui/PageHeader.jsx";
 import Pagination from "../../../components/ui/Pagination.jsx";
 import CreateUserDialog from "../../../components/admin/CreateUserDialog.jsx";
 import UserCard from "../../../components/admin/UserCard.jsx";
+import UserTable from "../../../components/admin/UserTable.jsx";
 import { useAuth } from "../../../hooks/auth/useAuth.js";
 import { useProfiles } from "../../../hooks/profile/useProfiles.js";
 import {
@@ -187,7 +188,14 @@ export default function Users() {
           />
         ) : (
           <>
-            <ul className="grid gap-4 lg:grid-cols-2">
+            <UserTable
+              profiles={items}
+              busy={Boolean(busyId)}
+              currentProfileId={currentProfile?.id}
+              onSetRole={changeRole}
+              onSetActive={askActive}
+            />
+            <ul className="grid gap-4 sm:grid-cols-2 lg:hidden">
               {items.map((profile) => (
                 <UserCard
                   key={profile.id}

@@ -219,6 +219,8 @@ hides its font metadata.
 - Document cards show **“Viewed by N signer(s)”** once someone opens the paper.
 - **Documents**, **Awaiting signature**, and **Users** use numbered pagination
   with a page window, previous/next controls, and item counts.
+- **Users** uses a dense desktop account table with role and status controls,
+  and keeps the card layout for phones and small tablets.
 - The document **Activity** timeline pages through six events at a time.
 - The dashboard shows a six-month upload bar chart, completion gauge, document
   status mix, and signer-engagement bars instead of repeating recent lists.

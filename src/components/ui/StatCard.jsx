@@ -29,7 +29,7 @@ export default function StatCard({
           className={`mt-0.5 h-2.5 w-2.5 rounded-full ${TONES[tone] ?? TONES.navy}`}
         />
       </div>
-      <p className="mt-2 font-serif text-3xl font-bold tracking-tight text-ink">
+      <p className="mt-2 font-serif text-3xl font-bold tracking-tight text-ink tabular-nums">
         {value ?? 0}
       </p>
       {hint && <p className="mt-1 text-xs leading-5 text-slate-500">{hint}</p>}

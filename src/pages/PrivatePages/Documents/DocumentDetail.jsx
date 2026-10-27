@@ -162,7 +162,7 @@ export default function DocumentDetail() {
                 href={fileUrl}
                 target="_blank"
                 rel="noreferrer"
-                variant="secondary"
+                variant="primary"
               >
                 Download PDF
               </Button>

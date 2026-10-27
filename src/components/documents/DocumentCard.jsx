@@ -74,7 +74,7 @@ export default function DocumentCard({ document }) {
               ? "No signatories yet"
               : `${progress.signed} of ${progress.total} signed`}
           </span>
-          <span className="text-slate-500">{progress.percent}%</span>
+          <span className="text-slate-500 tabular-nums">{progress.percent}%</span>
         </div>
         <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-tint">
           <div

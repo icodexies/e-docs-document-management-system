@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import AppearanceMenu from "../../components/ui/AppearanceMenu.jsx";
 import Avatar from "../../components/ui/Avatar.jsx";
@@ -5,7 +6,8 @@ import BrandMark from "../../components/ui/BrandMark.jsx";
 import SkipLink from "../../components/ui/SkipLink.jsx";
 import { DisplaySizeProvider } from "../../context/display/DisplaySizeProvider.jsx";
 import { useAuth } from "../../hooks/auth/useAuth.js";
-import { isPageActive, visibleMemberPages } from "../../routes/memberPages.js";
+import { useDocumentTitle } from "../../hooks/shared/useDocumentTitle.js";
+import { MEMBER_PAGES, isPageActive, visibleMemberPages } from "../../routes/memberPages.js";
 import { ROLE_LABELS } from "../../routes/roles.js";
 
 const NAV_PATHS = {
@@ -100,10 +102,21 @@ function MemberWorkspace() {
   const currentPage = pages.find((page) =>
     isPageActive(page, location.pathname),
   );
+  const titlePage =
+    currentPage ??
+    MEMBER_PAGES.find((page) => isPageActive(page, location.pathname));
+  const mainRef = useRef(null);
   const profileName = profile?.full_name || "Your profile";
   const roleText = `${ROLE_LABELS[role] ?? role ?? "Member"}${
     profile && !profile.signature_path ? " · Signature needed" : ""
   }`;
+
+  useEffect(() => {
+    mainRef.current?.focus({ preventScroll: true });
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+  }, [location.pathname]);
+
+  useDocumentTitle(titlePage ? `${titlePage.label} · E-Docs` : "E-Docs");
 
   async function handleLogout() {
     try {
@@ -277,10 +290,14 @@ function MemberWorkspace() {
         </div>
 
         <main
+          ref={mainRef}
           id="member-content"
-          className="mx-auto w-full max-w-7xl flex-1 px-5 py-7 sm:px-8 sm:py-8"
+          tabIndex={-1}
+          className="mx-auto w-full max-w-7xl flex-1 px-5 py-7 focus:outline-none sm:px-8 sm:py-8"
         >
-          <Outlet />
+          <div key={location.pathname} className="page-transition">
+            <Outlet />
+          </div>
         </main>
 
         <footer className="border-t border-slate-200/80 bg-surface px-5 py-5 sm:px-8">
